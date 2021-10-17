@@ -34,6 +34,10 @@ def all_plugins_ready():
 
 
 def register_menus():
+    """
+    registeres the menu items to be shown for this plugin.
+    :return: an array of KioskMenuItem instances
+    """
     global plugin
     return [KioskMenuItem(name="analyze logs",
                           onclick="triggerModule('logviewer.logviewer_show')",
