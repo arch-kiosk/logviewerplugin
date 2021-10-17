@@ -1,0 +1,9 @@
+/.*cache*
+*.dmp
+*.out
+/temp/
+/log/
+*.css.map
+*.pstat
+*.zip
+callgrind*.*
