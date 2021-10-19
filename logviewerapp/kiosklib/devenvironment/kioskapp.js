@@ -30,6 +30,8 @@ export class KioskApp extends LitElement {
     return html` please wait ... `;
   }
   renderApiError() {
-    return html` Error. Cannot reach Kiosk API. `;
+    return html`
+      Error. Cannot connect to Kiosk API: ${this.apiContext.lastErrorMessage}
+    `;
   }
 }
