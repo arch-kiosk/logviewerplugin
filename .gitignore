@@ -8,3 +8,4 @@
 *.pstat
 *.zip
 callgrind*.*
+.vscode/
