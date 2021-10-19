@@ -1,3 +1,4 @@
+import logging
 import sys
 from typing import Union
 
@@ -7,6 +8,7 @@ if "mcpcore.mcpworker" not in sys.modules:
     from flask_login import current_user
     from .logviewercontroller import logviewer
     from .logviewercontroller import plugin_version
+    from .logviewercontroller import register_resources
     from authorization import ENTER_ADMINISTRATION_PRIVILEGE
 
 plugin: Union[KioskControllerPlugin, None] = None
@@ -20,8 +22,15 @@ def instantiate_plugin_object(name, package):
     return KioskControllerPlugin(name, package)
 
 
-def init_app(app):
+def init_app(app, api=None):
     app.register_blueprint(logviewer)
+
+    if api:
+        register_resources(api)
+        return True
+    else:
+        logging.error("logviewerplugin/__init__.py/init_app: api is None.")
+        return False
 
 
 def register_plugin_instance(plugin_to_register):
