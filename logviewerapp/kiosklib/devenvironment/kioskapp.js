@@ -1,10 +1,6 @@
 import { html, css, LitElement } from "lit";
-/**
- * An example element.
- *
- * @slot - This element has a slot
- * @csspart button - The button
- */
+import { API_STATE_ERROR, API_STATE_READY } from "./devapputils";
+
 export class KioskApp extends LitElement {
   static get properties() {
     return {
@@ -21,14 +17,19 @@ export class KioskApp extends LitElement {
   }
 
   render() {
-    if (this.apiContext) {
+    if (this.apiContext && this.apiContext.status == API_STATE_READY) {
       return this.apiRender();
     } else {
-      return this.renderNoContextYet();
+      if (this.apiContext && this.apiContext.status == API_STATE_ERROR)
+        return this.renderApiError();
+      else return this.renderNoContextYet();
     }
   }
 
   renderNoContextYet() {
     return html` please wait ... `;
+  }
+  renderApiError() {
+    return html` Error. Cannot reach Kiosk API. `;
   }
 }

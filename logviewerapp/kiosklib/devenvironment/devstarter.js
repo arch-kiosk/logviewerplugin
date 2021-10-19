@@ -5,8 +5,12 @@ window.addEventListener("load", () => {
   let api = new KioskApi();
   api
     .initApi()
-    .then((token) => {
-      console.log(`Got a token: ${api.token}`);
+    .then((token) => {})
+    .catch((e) => {
+      console.log(`Exception when intializing: ${e}`);
+      app.apiContext = api;
+    })
+    .finally(() => {
       let app = document.querySelector("#kiosk-app");
       if (app != undefined) {
         app.apiContext = api;
@@ -14,8 +18,5 @@ window.addEventListener("load", () => {
       } else {
         console.log("there is no app.");
       }
-    })
-    .catch((e) => {
-      console.log(e);
     });
 });
