@@ -17,5 +17,14 @@ kiosk:
 
 ```
 
-
-
+# configure local development
+To connect to a locally running kiosk instance during development
+of the js app part you want to create a .env.development.local file
+ under /logviewerapp/ with these settings:
+```
+VITE_DEV_API_URL=http://localhost:5000/api
+VITE_DEV_API_USER=your kiosk user id
+VITE_DEV_API_PWD=your local kiosk user's password 
+```
+Vite (our bundler/build tool) uses dotenv to makes those constants
+available in js. So the syntax follows the dotenv specifications.
