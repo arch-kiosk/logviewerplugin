@@ -38,17 +38,12 @@ export class LogViewerApp extends KioskApp {
     super();
     this.name = "World";
     this.count = 0;
+    console.log(import.meta.env.VITE_API_URL);
   }
 
   // apiRender is only called once the api is connected.
   apiRender() {
-    return html`
-      <h1>Hello, ${this.name}!</h1>
-      <button @click=${this._onClick} part="button">
-        Click Count: ${this.count}
-      </button>
-      <slot></slot>
-    `;
+    return html` <h1>ready!</h1> `;
   }
 
   _onClick() {
