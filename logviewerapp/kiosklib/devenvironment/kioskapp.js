@@ -2,6 +2,8 @@ import { html, css, LitElement } from "lit";
 import { API_STATE_ERROR, API_STATE_READY } from "./devapputils";
 
 export class KioskApp extends LitElement {
+  kiosk_base_url = import.meta.env.VITE_KIOSK_BASE_URL;
+
   static get properties() {
     return {
       /**
@@ -27,10 +29,14 @@ export class KioskApp extends LitElement {
   }
 
   renderNoContextYet() {
-    return html` please wait ... `;
+    return html`
+      <link rel="stylesheet" href="${this.kiosk_base_url}static/styles.css" />
+      <h1>please wait ...</h1>
+    `;
   }
   renderApiError() {
     return html`
+      <link rel="stylesheet" href="${this.kiosk_base_url}static/styles.css" />
       Error. Cannot connect to Kiosk API: ${this.apiContext.lastErrorMessage}
     `;
   }

@@ -9,11 +9,8 @@ import { html, css } from "lit";
 export class LogViewerApp extends KioskApp {
   static get styles() {
     return css`
-      :host {
-        display: block;
-        border: solid 1px gray;
-        padding: 16px;
-        max-width: 800px;
+      h1 {
+        color: red;
       }
     `;
   }
@@ -36,14 +33,14 @@ export class LogViewerApp extends KioskApp {
 
   constructor() {
     super();
-    this.name = "World";
-    this.count = 0;
-    console.log(import.meta.env.VITE_API_URL);
   }
 
   // apiRender is only called once the api is connected.
   apiRender() {
-    return html` <h1>ready!</h1> `;
+    return html`
+      <link rel="stylesheet" href="${this.kiosk_base_url}static/styles.css" />
+      <h1>ready!</h1>
+    `;
   }
 
   _onClick() {
