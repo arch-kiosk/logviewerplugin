@@ -1,18 +1,10 @@
 import { KioskApp } from "/kiosklib/devenvironment/kioskapp";
 import { html, css } from "lit";
-/**
- * An example element.
- *
- * @slot - This element has a slot
- * @csspart button - The button
- */
+import local_css from "/src/static/logviewerapp.sass";
+
 export class LogViewerApp extends KioskApp {
   static get styles() {
-    return css`
-      h1 {
-        color: red;
-      }
-    `;
+    return local_css;
   }
 
   static get properties() {

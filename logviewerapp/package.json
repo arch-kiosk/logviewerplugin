@@ -16,6 +16,7 @@
     "lit": "^2.0.0"
   },
   "devDependencies": {
+    "sass": "^1.43.2",
     "vite": "^2.6.4"
   }
 }
