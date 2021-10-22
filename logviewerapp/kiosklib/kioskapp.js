@@ -1,5 +1,5 @@
 import { html, css, LitElement } from "lit";
-import { API_STATE_ERROR, API_STATE_READY } from "./devapputils";
+import { API_STATE_ERROR, API_STATE_READY } from "./kioskapi";
 
 export class KioskApp extends LitElement {
   kiosk_base_url = import.meta.env.VITE_KIOSK_BASE_URL;

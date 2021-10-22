@@ -1,11 +1,11 @@
-import { KioskApp } from "/kiosklib/devenvironment/kioskapp";
-import { html, css } from "lit";
-import local_css from "/src/static/logviewerapp.sass";
+//TODO: This needs to move to the shared javascript library in kiosk.
+import { KioskApp } from "../kiosklib/kioskapp";
+
+import { html, unsafeCSS } from "lit";
+import local_css from "/src/static/logviewerapp.sass?inline";
 
 export class LogViewerApp extends KioskApp {
-  static get styles() {
-    return local_css;
-  }
+  static styles = unsafeCSS(local_css);
 
   static get properties() {
     let props = super.properties;

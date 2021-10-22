@@ -1,8 +1,8 @@
-import { KioskApi } from "./devapputils.js";
+import { DevKioskApi } from "./devkioskapi.js";
 
 window.addEventListener("load", () => {
   console.log("let's start...");
-  let api = new KioskApi();
+  let api = new DevKioskApi();
   api
     .initApi()
     .then((token) => {})
