@@ -1,16 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/src/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + Lit App</title>
-    <link rel="stylesheet" href="http://localhost:5000/static/styles.css" />
-  </head>
-  <body>
-    <h1>outer h1</h1>
-    <logviewer-app id="kiosk-app"></logviewer-app>
-  </body>
-  <script type="module" src="/src/app.js"></script>
-  <script type="module" src="/kiosklib/devstarter.js"></script>
+    <head>
+        <meta charset="UTF-8" />
+        <link rel="icon" type="image/svg+xml" href="/src/favicon.svg" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Vite + Lit App</title>
+        <!--suppress JSUnresolvedLibraryURL -->
+        <link rel="stylesheet" href="http://localhost:5000/static/styles.css" />
+        <style>
+            header {
+                background: lightgrey;
+                padding: 0.5em;
+                margin-bottom: 2em;
+            }
+            button {
+                width: auto;
+                padding: 1em;
+            }
+        </style>
+    </head>
+    <body>
+        <header>
+            <button id="set-filename">set filename</button>
+        </header>
+        <logviewer-app id="kiosk-app"></logviewer-app>
+    </body>
+    <script type="module" src="/src/app.js"></script>
+    <script type="module" src="/kiosklib/devstarter.js"></script>
+    <script>
+        filename = "urap_Wed_061021-1813.log";
+        window.addEventListener("load", () => {
+            let el = document.querySelector("#set-filename");
+            el.innerText = "load " + filename;
+            el.addEventListener("click", () => {
+                document.querySelector("logviewer-app").logFilename = filename;
+            });
+        });
+    </script>
 </html>

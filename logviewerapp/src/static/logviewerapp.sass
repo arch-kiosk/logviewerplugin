@@ -2,3 +2,22 @@ h1
     line-height: 1.3em
     &:hover
         background: green
+
+.logline
+    width: 100%
+    font-family: var(--standard-text-font)
+    font-size: var(--font-size-standard)
+    padding: 2px 1em
+    user-select: text
+    display: flex
+    flex-direction: row
+ 
+    &.error
+        background: red
+    &.warning
+        background: yellow
+    &.info, &.debug
+        display: none
+        opacity: .5
+
+    

@@ -15,7 +15,15 @@
   "dependencies": {
     "lit": "^2.0.0"
   },
+  "prettier": {
+    "semi": true,
+    "trailingComma": "all",
+    "singleQuote": false,
+    "printWidth": 80,
+    "tabWidth": 4
+  },
   "devDependencies": {
+    "prettier": "2.4.1",
     "sass": "^1.43.2",
     "vite": "^2.6.10"
   }
