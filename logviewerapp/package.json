@@ -13,13 +13,14 @@
     "build": "vite build"
   },
   "dependencies": {
-    "lit": "^2.0.0"
+    "lit": "^2.0.0",
+    "luxon": "^2.0.2"
   },
   "prettier": {
     "semi": true,
     "trailingComma": "all",
     "singleQuote": false,
-    "printWidth": 80,
+    "printWidth": 120,
     "tabWidth": 4
   },
   "devDependencies": {

@@ -3,21 +3,54 @@ h1
     &:hover
         background: green
 
+.logline-grid
+    display: grid
+    grid-template-columns: max-content max-content auto
+    row-gap: 1px
 .logline
-    width: 100%
     font-family: var(--standard-text-font)
     font-size: var(--font-size-standard)
-    padding: 2px 1em
+    padding: 2px 5px
     user-select: text
+    background-color: var(--col-bg-1)
+
+    &.error
+        background-color: var(--col-bg-alert)
+        color: var(--col-primary-bg-alert)
+    &.warning
+        background-color: var(--col-bg-att)
+        color: var(--col-primary-bg-att)
+    &.info
+        color: var(--col-primary-bg-1)
+    &.debug
+        color: var(--col-primary-bg-1)
+        font-style: italic
+        opacity: .5
+    &.col-1,
+    &.col-2
+        font-family: var(--monospace-font)
+    .ts-date
+        display: inline-block
+    .ts-time
+        display: inline-block
+
+.hour-selector
     display: flex
     flex-direction: row
- 
-    &.error
-        background: red
-    &.warning
-        background: yellow
-    &.info, &.debug
-        display: none
-        opacity: .5
+    justify-content: space-between
+    width: 100%
+.hour-button
+    background-color: var(--col-bg-2)
+    color: var(--col-primary-bg-2)
+    text-align: center
+    width: 100%
+    border-right: 1px solid var(--col-bg-body)
+    border-bottom: 1px solid var(--col-bg-body)
+    &:last-child
+        border-right: none
+    &.selected
+        background-color: var(--col-bg-1)
+
+
 
     
