@@ -54,14 +54,37 @@ h1
     &.selected
         background-color: var(--col-bg-1)
     &.severity2
-        color: var(--col-warning-bg-2)
+        //color: var(--col-warning-bg-2)
         border-bottom: 2px dotted var(--col-warning-bg-2)
     &.severity3
-        color: var(--col-error-bg-2)
+        //color: var(--col-error-bg-2)
         border-bottom: 2px dotted var(--col-error-bg-2)
 
+.toolbar-button
+    color: var(--col-primary-bg-3)
+    padding: 4px 0px
+    text-align: center
+    border: none
+    width: 2.5em
+    margin: 4px
+    i
+        font-size: 24px
+    &.pressed
+        background-color: var(--col-bg-3-lighter)
+        color: var(--col-accent-bg-3)
+        border-top: 2px solid rgba(0,0,0,.2)
+        border-left: 2px solid rgba(0,0,0,.2)
 
+.bt-debug:before
+    content: ""
 
+.bt-info:before
+    content: ""
 
+.bt-warning:before
+    content: ""
+
+.bt-error:before
+    content: ""
 
     

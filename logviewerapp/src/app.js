@@ -13,6 +13,7 @@ export class LogViewerApp extends KioskApp {
         props.logFilename = { type: String };
         props.logLines = { type: Array };
         props.selectedHourIndex = { type: Number };
+        props.filters = { type: Object };
 
         return props;
     }
@@ -23,6 +24,7 @@ export class LogViewerApp extends KioskApp {
         this.logLines = [];
         this.hours = [];
         this.selectedHourIndex = 0;
+        this.filters = { debug: true, info: true, warning: true, error: true };
     }
 
     firstUpdated(_changedProperties) {
@@ -47,6 +49,7 @@ export class LogViewerApp extends KioskApp {
                 let lastTS = 0;
                 let c = 0;
                 let severity = 0;
+                // noinspection JSUnresolvedVariable
                 data.log_lines.map((rawLine) => {
                     if (rawLine.trim() !== "") {
                         let match = /^>\[(?<pid>\d*)\/(?<tid>\d*)\:(?<type>.*) at (?<ts>.*)\]: (?<msg>.*)\n$/.exec(
@@ -64,29 +67,26 @@ export class LogViewerApp extends KioskApp {
                                 severity = 0;
                             }
 
-                            let newSeverity = 0;
                             if (/exception/i.exec(line.msg)) line.type = "error";
                             else {
                                 let type = line.type.slice(-2).toLowerCase();
                                 switch (type) {
                                     case "or":
                                         line.type = "error";
-                                        newSeverity = 3;
+                                        if (severity < 3) severity = 3;
                                         break;
                                     case "ng":
                                         line.type = "warning";
-                                        newSeverity = 2;
+                                        if (severity < 2) severity = 2;
                                         break;
                                     case "ug":
                                         line.type = "debug";
-                                        newSeverity = 0;
                                         break;
                                     default:
                                         line.type = "info";
-                                        newSeverity = 1;
+                                        if (severity < 1) severity = 1;
                                 }
                             }
-                            if (newSeverity > severity) severity = newSeverity;
                             this.logLines.push(line);
                             c++;
                         } else {
@@ -99,8 +99,58 @@ export class LogViewerApp extends KioskApp {
         // .catch((event) => {});
     }
 
+    filterClicked(e) {
+        let newFilter = { ...this.filters };
+        switch (e.currentTarget.id) {
+            case "filter-bt-debug":
+                newFilter.debug = !newFilter.debug;
+                break;
+            case "filter-bt-info":
+                newFilter.info = !newFilter.info;
+                break;
+            case "filter-bt-warning":
+                newFilter.warning = !newFilter.warning;
+                break;
+            case "filter-bt-error":
+                newFilter.error = !newFilter.error;
+                break;
+        }
+        this.filters = newFilter;
+    }
+
     renderFilter() {
-        return html` <div class="toolbar"></div>`;
+        return html` <div class="toolbar">
+            <div class="toolbar-buttons">
+                <div
+                    id="filter-bt-debug"
+                    class="toolbar-button${this.filters.debug ? " pressed" : undefined}"
+                    @click="${this.filterClicked}"
+                >
+                    <i class="fas bt-debug"></i>
+                </div>
+                <div
+                    id="filter-bt-info"
+                    class="toolbar-button${this.filters.info ? " pressed" : undefined}"
+                    @click="${this.filterClicked}"
+                >
+                    <i class="fas bt-info"></i>
+                </div>
+                <div
+                    id="filter-bt-warning"
+                    class="toolbar-button${this.filters.warning ? " pressed" : undefined}"
+                    @click="${this.filterClicked}"
+                >
+                    <i class="fas bt-warning"></i>
+                </div>
+                <div
+                    id="filter-bt-error"
+                    class="toolbar-button${this.filters.error ? " pressed" : undefined}"
+                    @click="${this.filterClicked}"
+                >
+                    <i class="fas bt-error"></i>
+                </div>
+            </div>
+        </div>`;
     }
 
     hourButtonClicked(e) {
@@ -137,7 +187,20 @@ export class LogViewerApp extends KioskApp {
         }
         return undefined;
     }
-
+    showLine(type) {
+        switch (type) {
+            case "debug":
+                return this.filters.debug;
+            case "info":
+                return this.filters.info;
+            case "warning":
+                return this.filters.warning;
+            case "error":
+                return this.filters.error;
+            default:
+                return false;
+        }
+    }
     // apiRender is only called once the api is connected.
     apiRender() {
         let startIndex;
@@ -154,21 +217,21 @@ export class LogViewerApp extends KioskApp {
                 ? html` <div class="logline-grid">
                       ${this.logLines.slice(startIndex, endIndex).map(
                           (logLine) => html`
-                              <div class="logline ${logLine.type} col-1">${logLine.pid}/${logLine.tid}</div>
-                              <div class="logline ${logLine.type} col-2">
-                                  <span class="ts-date">${logLine.date}</span>
-                                  <span class="ts-time">${logLine.time}</span>
-                              </div>
-                              <div class="logline ${logLine.type}">${logLine.msg}</div>
+                              ${this.showLine(logLine.type)
+                                  ? html`
+                                        <div class="logline ${logLine.type} col-1">${logLine.pid}/${logLine.tid}</div>
+                                        <div class="logline ${logLine.type} col-2">
+                                            <span class="ts-date">${logLine.date}</span>
+                                            <span class="ts-time">${logLine.time}</span>
+                                        </div>
+                                        <div class="logline ${logLine.type}">${logLine.msg}</div>
+                                    `
+                                  : undefined}
                           `,
                       )}
                   </div>`
                 : undefined}
         `;
-    }
-
-    _onClick() {
-        this.count++;
     }
 }
 
