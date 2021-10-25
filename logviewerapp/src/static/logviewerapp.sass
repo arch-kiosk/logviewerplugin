@@ -37,19 +37,30 @@ h1
 .hour-selector
     display: flex
     flex-direction: row
-    justify-content: space-between
+    flex-wrap: wrap
+    justify-content: center
     width: 100%
-.hour-button
     background-color: var(--col-bg-2)
+.hour-button
     color: var(--col-primary-bg-2)
+    background-color: var(--col-bg-2-darker)
     text-align: center
-    width: 100%
-    border-right: 1px solid var(--col-bg-body)
-    border-bottom: 1px solid var(--col-bg-body)
+    padding: 2px 4px
+    margin-right: 2px
+    margin-bottom: 2px
+    border-bottom: 2px solid rgba(0,0,0,0)
     &:last-child
         border-right: none
     &.selected
         background-color: var(--col-bg-1)
+    &.severity2
+        color: var(--col-warning-bg-2)
+        border-bottom: 2px dotted var(--col-warning-bg-2)
+    &.severity3
+        color: var(--col-error-bg-2)
+        border-bottom: 2px dotted var(--col-error-bg-2)
+
+
 
 
 

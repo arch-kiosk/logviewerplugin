@@ -44,8 +44,9 @@ export class LogViewerApp extends KioskApp {
             .then((data) => {
                 this.logLines = [];
                 this.hours = [];
-                let lastHour = 0;
+                let lastTS = 0;
                 let c = 0;
+                let severity = 0;
                 data.log_lines.map((rawLine) => {
                     if (rawLine.trim() !== "") {
                         let match = /^>\[(?<pid>\d*)\/(?<tid>\d*)\:(?<type>.*) at (?<ts>.*)\]: (?<msg>.*)\n$/.exec(
@@ -55,28 +56,37 @@ export class LogViewerApp extends KioskApp {
                             let line = { ...match.groups, ts: DateTime.fromSQL(match.groups.ts) };
                             line.date = line.ts.toLocaleString(DateTime.DATE_SHORT);
                             line.time = line.ts.toLocaleString(DateTime.TIME_24_WITH_SECONDS);
-                            if (line.ts.hour > lastHour) {
-                                this.hours.push({ hour: line.ts.hour, index: c });
-                                lastHour = line.ts.hour;
+                            if (c > 0 && c % 200 === 0) {
+                                // if (line.ts.hour > lastHour) {
+                                let hour = `${this.logLines[lastTS].time} - ${line.time}`;
+                                this.hours.push({ hour: hour, index: c, severity: severity });
+                                lastTS = c + 1;
+                                severity = 0;
                             }
 
+                            let newSeverity = 0;
                             if (/exception/i.exec(line.msg)) line.type = "error";
                             else {
                                 let type = line.type.slice(-2).toLowerCase();
                                 switch (type) {
                                     case "or":
                                         line.type = "error";
+                                        newSeverity = 3;
                                         break;
                                     case "ng":
                                         line.type = "warning";
+                                        newSeverity = 2;
                                         break;
                                     case "ug":
                                         line.type = "debug";
+                                        newSeverity = 0;
                                         break;
                                     default:
                                         line.type = "info";
+                                        newSeverity = 1;
                                 }
                             }
+                            if (newSeverity > severity) severity = newSeverity;
                             this.logLines.push(line);
                             c++;
                         } else {
@@ -94,7 +104,8 @@ export class LogViewerApp extends KioskApp {
     }
 
     hourButtonClicked(e) {
-        let clickedHour = Number(e.target.dataset.hour);
+        let clickedHour = e.target.dataset.hour;
+        console.log(clickedHour);
         this.hours.find((hour, index) => {
             if (hour.hour === clickedHour) {
                 this.selectedHourIndex = index;
@@ -111,11 +122,13 @@ export class LogViewerApp extends KioskApp {
                     ${this.hours.map(
                         (hour) => html`
                             <div
-                                class="hour-button${hour.hour === selectedHour ? " selected" : undefined}"
+                                class="hour-button${hour.hour === selectedHour
+                                    ? " selected"
+                                    : undefined} severity${hour.severity}"
                                 @click="${this.hourButtonClicked}"
                                 data-hour=${hour.hour}
                             >
-                                ${String(hour.hour).padStart(2, "0")}:00
+                                ${String(hour.hour)}
                             </div>
                         `,
                     )}
@@ -131,11 +144,9 @@ export class LogViewerApp extends KioskApp {
         let endIndex;
 
         if (this.logLines.length > 0) {
-            startIndex = this.hours[this.selectedHourIndex].index;
-            endIndex =
-                this.hours.length - 1 > this.selectedHourIndex
-                    ? this.hours[this.selectedHourIndex + 1].index
-                    : this.logLines.length - 1;
+            startIndex = this.selectedHourIndex > 0 ? this.hours[this.selectedHourIndex - 1].index : 0;
+
+            endIndex = this.hours[this.selectedHourIndex].index;
         }
         return html`
             ${this.renderFilter()} ${this.renderHourSelector()}
