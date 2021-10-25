@@ -24,7 +24,7 @@ export class LogViewerApp extends KioskApp {
         this.logLines = [];
         this.hours = [];
         this.selectedHourIndex = 0;
-        this.filters = { debug: true, info: true, warning: true, error: true };
+        this.filters = { debug: false, info: true, warning: true, error: true };
     }
 
     firstUpdated(_changedProperties) {
