@@ -1,0 +1,47 @@
+{% extends "kioskbasic.html" %}
+{% block links %}
+  <!--
+    <link rel="stylesheet"
+          href="{{ url_for('logviewer.static', filename='syncmanagerplugin.css') }}?v=1"/>
+  -->
+        <style>
+            header {
+                background: lightgrey;
+                padding: 0.5em;
+                margin-bottom: 2em;
+            }
+            button {
+                width: auto;
+                padding: 1em;
+            }
+        </style>
+      <script type="module" crossorigin src="{{ url_for('logviewer.static', filename='/app/logviewerapp.es.js') }}"></script>
+{#      <script type="module" crossorigin src="{{ url_for('logviewer.static', filename='/app/assets/index.951fd84e.js') }}"></script>#}
+{#      <link rel="modulepreload" href="{{ url_for('logviewer.static', filename='/app/assets/vendor.c0a43cf8.js') }}">#}
+
+{% endblock %}
+
+{% block title %}
+  <div id="subtitle-shadow">Kiosk</div>
+  <div id="subtitle">Field Manager</div>
+{% endblock %}
+
+{% block body %}
+        <header>
+            <button id="set-filename">set filename</button>
+        </header>
+        <logviewer-app id="kiosk-app"></logviewer-app>
+  <script>
+      filename = "urap_Wed_201021-1149.log";
+      window.addEventListener("load", () => {
+          let el = document.querySelector("#set-filename");
+          el.innerText = "load " + filename;
+          el.addEventListener("click", () => {
+              document.querySelector("logviewer-app").logFilename = filename;
+          });
+      });
+  </script>
+
+{% endblock %}
+
+<!--<script src="../static/app/syncmanager-app.js"></script>-->

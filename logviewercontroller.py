@@ -61,20 +61,20 @@ def get_plugin_config() -> dict:
 @logviewer.route('_redirect', methods=['GET'])
 @full_login_required
 @requires(IsAuthorized(ENTER_ADMINISTRATION_PRIVILEGE))
-def filemanager_index():
+def logviewer_index():
     print("------------- redirecting")
-    return redirect(url_for("filemanager.filemanager_show"))
+    return redirect(url_for("logviewer.logviewer_show"))
 
 
 #  **************************************************************
-#  ****    /filemanager index
+#  ****    /logviewer index
 #  *****************************************************************/
 
 @logviewer.route('', methods=['GET'])
 @full_login_required
 @requires(IsAuthorized(ENTER_ADMINISTRATION_PRIVILEGE))
 # @nocache
-def filemanager_show():
+def logviewer_show():
     conf: KioskConfig = kioskglobals.cfg
     if conf.is_in_debug_mode():
         print("\n*************** logviewer/ ")

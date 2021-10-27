@@ -9,3 +9,4 @@
 *.zip
 callgrind*.*
 .vscode/
+static/app/

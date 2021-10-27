@@ -10,7 +10,7 @@
   ],
   "scripts": {
     "dev": "vite",
-    "build": "vite build"
+    "build": "vite build --emptyOutDir"
   },
   "dependencies": {
     "lit": "^2.0.0",

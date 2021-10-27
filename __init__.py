@@ -59,6 +59,10 @@ def register_menus():
                           ),
             ]
 
+def register_global_routes():
+    global plugin
+    return ["logviewer.logviewer_show"]
 
 def register_global_scripts():
-    return {"fileimportplugin": ["fileimport.static", "scripts/fileimport.js", "async"]}
+    # return {"fileimportplugin": ["fileimport.static", "scripts/fileimport.js", "async"]}
+    return {}
