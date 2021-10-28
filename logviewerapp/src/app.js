@@ -1,4 +1,4 @@
-import { KioskApp } from "../kiosklib/kioskapp"; //TODO: This needs to move to the shared javascript library in kiosk.
+import { KioskApp } from "../../../../static/scripts/kioskapplib/kioskapp";
 import { DateTime } from "luxon";
 
 import { html, unsafeCSS } from "lit";
@@ -52,6 +52,7 @@ export class LogViewerApp extends KioskApp {
                 // noinspection JSUnresolvedVariable
                 data.log_lines.map((rawLine) => {
                     if (rawLine.trim() !== "") {
+                        // noinspection RegExpRedundantEscape
                         let match = /^>\[(?<pid>\d*)\/(?<tid>\d*)\:(?<type>.*) at (?<ts>.*)\]: (?<msg>.*)\n$/.exec(
                             rawLine,
                         );

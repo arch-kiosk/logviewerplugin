@@ -4,9 +4,9 @@
         <meta charset="UTF-8" />
         <link rel="icon" type="image/svg+xml" href="/src/favicon.svg" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Vite + Lit App</title>
-        <!--suppress JSUnresolvedLibraryURL -->
-        <link rel="stylesheet" href="http://localhost:5000/static/styles.css" />
+        <title>kiosk logviewer app</title>
+        <!--suppress HtmlUnknownTarget -->
+        <link rel="stylesheet" href="<%- VITE_KIOSK_BASE_URL %>static/styles.css" />
         <style>
             header {
                 background: lightgrey;
@@ -26,9 +26,9 @@
         <logviewer-app id="kiosk-app"></logviewer-app>
     </body>
     <script type="module" src="/src/app.js"></script>
-    <script type="module" src="/kiosklib/devstarter.js"></script>
-    <script>
-        filename = "urap_Wed_201021-1149.log";
+    <script type="module" src="/kioskdevstarter.js"></script>
+    <script type="module">
+        let filename = "urap_Wed_201021-1149.log";
         window.addEventListener("load", () => {
             let el = document.querySelector("#set-filename");
             el.innerText = "load " + filename;

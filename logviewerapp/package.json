@@ -2,6 +2,7 @@
   "name": "logviewerapp",
   "version": "0.0.0",
   "main": "dist/logviewerapp.js",
+  "type": "module",
   "exports": {
     ".": "./dist/logviewerapp.js"
   },
@@ -26,6 +27,7 @@
   "devDependencies": {
     "prettier": "2.4.1",
     "sass": "^1.43.2",
-    "vite": "^2.6.10"
+    "vite": "^2.6.10",
+    "vite-plugin-html": "^2.1.1"
   }
 }
