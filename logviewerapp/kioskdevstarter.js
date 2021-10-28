@@ -1,4 +1,4 @@
-import { DevKioskApi } from "./devkioskapi.js";
+import { DevKioskApi } from "/../../../static/scripts/kioskapplib/devkioskapi.js";
 
 window.addEventListener("load", () => {
     console.log("let's start...");
