@@ -40,6 +40,7 @@ export class LogViewerApp extends KioskApp {
     }
 
     _fetchLog() {
+        this.showProgress = true;
         this.apiContext
             .fetchFromApi("logviewer", `${this.logFilename}/log-lines`, {
                 caller: "logviewerapp._fetchLog",
@@ -102,8 +103,10 @@ export class LogViewerApp extends KioskApp {
                     this.hours.push({ hour: hour, index: c, severity: severity });
                 }
                 this.requestUpdate();
+            })
+            .finally(() => {
+                this.showProgress = false;
             });
-        // .catch((event) => {});
     }
 
     filterClicked(e) {
