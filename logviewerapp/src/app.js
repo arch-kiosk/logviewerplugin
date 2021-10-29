@@ -25,7 +25,7 @@ export class LogViewerApp extends KioskApp {
         this.hours = [];
         this.selectedHourIndex = 0;
         this.filters = { debug: false, info: true, warning: true, error: true };
-        this.MAX_LINES = 200;
+        this.MAX_LINES = 400;
     }
 
     firstUpdated(_changedProperties) {
@@ -97,7 +97,7 @@ export class LogViewerApp extends KioskApp {
                         }
                     }
                 });
-                if (c && c % this.MAX_LINES !== 0) {
+                if (c - 1 > 0 && (c - 1) % this.MAX_LINES !== 0) {
                     let line = this.logLines[this.logLines.length - 1];
                     let hour = `${this.logLines[lastTS].time} - ${line.time}`;
                     this.hours.push({ hour: hour, index: c, severity: severity });
