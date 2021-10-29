@@ -2,6 +2,7 @@ import logging
 import os
 from http import HTTPStatus
 
+from flask import abort as flask_abort
 from flask import Blueprint, redirect, url_for, render_template
 
 from flask_allows import requires
@@ -58,32 +59,41 @@ def get_plugin_config() -> dict:
 #  ****    redirecting index
 #  *****************************************************************/
 
-@logviewer.route('_redirect', methods=['GET'])
-@full_login_required
-@requires(IsAuthorized(ENTER_ADMINISTRATION_PRIVILEGE))
-def logviewer_index():
-    print("------------- redirecting")
-    return redirect(url_for("logviewer.logviewer_show"))
-
+# @logviewer.route('_redirect', methods=['GET'])
+# @full_login_required
+# @requires(IsAuthorized(ENTER_ADMINISTRATION_PRIVILEGE))
+# def logviewer_index():
+#     print("------------- redirecting")
+#     return redirect(url_for("logviewer.logviewer_show"))
+#
 
 #  **************************************************************
 #  ****    /logviewer index
 #  *****************************************************************/
 
-@logviewer.route('', methods=['GET'])
+@logviewer.route('/<string:filename>', methods=['GET'])
 @full_login_required
 @requires(IsAuthorized(ENTER_ADMINISTRATION_PRIVILEGE))
 # @nocache
-def logviewer_show():
+def logviewer_show(filename):
     conf: KioskConfig = kioskglobals.cfg
     if conf.is_in_debug_mode():
         print("\n*************** logviewer/ ")
         print(f"\nGET: get_plugin_for_controller returns {get_plugin_for_controller(_plugin_name_)}")
         print(f"\nGET: plugin.name returns {get_plugin_for_controller(_plugin_name_).name}")
 
+    filename = urapstdlib.urap_secure_filename(filename)
+    if not filename:
+        flask_abort(HTTPStatus.BAD_REQUEST, 'no log file given.')
+
+    log_file = os.path.join(urapstdlib.get_file_path(conf.get_logfile()), filename)
+    if not os.path.exists(log_file):
+        flask_abort(HTTPStatus.NOT_FOUND, 'File not found.')
+
     authorized_to = get_local_authorization_strings(LOCAL_PRIVILEGES)
     return render_template('logviewer.html',
                            authorized_to=authorized_to,
+                           log_filename=filename
                            )
 
 

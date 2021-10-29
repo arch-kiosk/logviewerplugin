@@ -2,6 +2,8 @@ import logging
 import sys
 from typing import Union
 
+from flask import url_for
+
 if "mcpcore.mcpworker" not in sys.modules:
     from core.kioskcontrollerplugin import KioskControllerPlugin
     from kioskmenuitem import KioskMenuItem
@@ -40,6 +42,12 @@ def register_plugin_instance(plugin_to_register):
 
 def all_plugins_ready():
     global plugin
+    plugin._app.events.subscribe("administration", "show_log", administration_show_log)
+    logging.debug(f"PluginLocusRelationsHook subscribed to synchronization.after_synchronization")
+
+
+def administration_show_log(filename):
+    return url_for("logviewer.logviewer_show", filename=filename)
 
 
 def register_menus():
@@ -48,20 +56,13 @@ def register_menus():
     :return: an array of KioskMenuItem instances
     """
     global plugin
-    return [KioskMenuItem(name="analyze logs",
-                          onclick="triggerModule('logviewer.logviewer_show')",
-                          endpoint="logviewer.logviewer_show",
-                          menu_cfg=plugin.get_menu_config(),
-                          is_active=lambda: current_user.fulfills_requirement(
-                              ENTER_ADMINISTRATION_PRIVILEGE) if hasattr(current_user,
-                                                                         "fulfills_requirement") else True,
-                          parent_menu='administration'
-                          ),
-            ]
+    return []
+
 
 def register_global_routes():
     global plugin
     return ["logviewer.logviewer_show"]
+
 
 def register_global_scripts():
     # return {"fileimportplugin": ["fileimport.static", "scripts/fileimport.js", "async"]}
