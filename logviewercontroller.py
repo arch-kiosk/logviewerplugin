@@ -26,7 +26,7 @@ from marshmallow import Schema, fields, ValidationError
 _plugin_name_ = "logviewerplugin"
 _controller_name_ = "logviewer"
 _url_prefix_ = '/' + _controller_name_
-plugin_version = 0.1
+plugin_version = 1.0
 
 logviewer = Blueprint(_controller_name_, __name__,
                       template_folder='templates',
