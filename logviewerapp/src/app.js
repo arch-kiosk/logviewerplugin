@@ -25,6 +25,7 @@ export class LogViewerApp extends KioskApp {
         this.hours = [];
         this.selectedHourIndex = 0;
         this.filters = { debug: false, info: true, warning: true, error: true };
+        this.MAX_LINES = 200;
     }
 
     firstUpdated(_changedProperties) {
@@ -60,7 +61,7 @@ export class LogViewerApp extends KioskApp {
                             let line = { ...match.groups, ts: DateTime.fromSQL(match.groups.ts) };
                             line.date = line.ts.toLocaleString(DateTime.DATE_SHORT);
                             line.time = line.ts.toLocaleString(DateTime.TIME_24_WITH_SECONDS);
-                            if (c > 0 && c % 200 === 0) {
+                            if (c > 0 && c % this.MAX_LINES === 0) {
                                 // if (line.ts.hour > lastHour) {
                                 let hour = `${this.logLines[lastTS].time} - ${line.time}`;
                                 this.hours.push({ hour: hour, index: c, severity: severity });
@@ -95,6 +96,11 @@ export class LogViewerApp extends KioskApp {
                         }
                     }
                 });
+                if (c && c % this.MAX_LINES !== 0) {
+                    let line = this.logLines[this.logLines.length - 1];
+                    let hour = `${this.logLines[lastTS].time} - ${line.time}`;
+                    this.hours.push({ hour: hour, index: c, severity: severity });
+                }
                 this.requestUpdate();
             });
         // .catch((event) => {});
