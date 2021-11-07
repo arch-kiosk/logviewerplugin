@@ -97,7 +97,7 @@ export class LogViewerApp extends KioskApp {
                         }
                     }
                 });
-                if (c - 1 > 0 && (c - 1) % this.MAX_LINES !== 0) {
+                if (c > 0 && c % this.MAX_LINES !== 0) {
                     let line = this.logLines[this.logLines.length - 1];
                     let hour = `${this.logLines[lastTS].time} - ${line.time}`;
                     this.hours.push({ hour: hour, index: c, severity: severity });
