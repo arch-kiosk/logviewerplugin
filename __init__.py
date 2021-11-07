@@ -61,7 +61,7 @@ def register_menus():
 
 def register_global_routes():
     global plugin
-    return ["logviewer.logviewer_show"]
+    return []
 
 
 def register_global_scripts():
