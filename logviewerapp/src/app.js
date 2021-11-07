@@ -222,7 +222,7 @@ export class LogViewerApp extends KioskApp {
             endIndex = this.hours[this.selectedHourIndex].index;
         }
         return html`
-            ${this.renderFilter()} ${this.renderHourSelector()}
+            <header>${this.renderFilter()} ${this.renderHourSelector()}</header>
             ${this.logLines.length > 0
                 ? html` <div class="logline-grid">
                       ${this.logLines.slice(startIndex, endIndex).map(

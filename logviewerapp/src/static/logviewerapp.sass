@@ -1,3 +1,9 @@
+//\:host
+//    //display: grid
+//    //background-color: pink
+//    grid-template-rows: auto auto
+//    grid-template-areas: "header" "content"
+
 h1
     line-height: 1.3em
     &:hover
@@ -33,6 +39,11 @@ h1
         display: inline-block
     .ts-time
         display: inline-block
+header
+    position: sticky
+    top: 0px
+    background: var(--col-bg-body)
+    z-index: 1
 
 .hour-selector
     display: flex
