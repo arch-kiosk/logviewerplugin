@@ -8,7 +8,7 @@ from flask import Blueprint, redirect, url_for, render_template
 from flask_allows import requires
 from flask_login import current_user
 
-import urapstdlib
+import kioskstdlib
 from authorization import MODIFY_DATA
 from core.kioskcontrollerplugin import get_plugin_for_controller
 from authorization import ENTER_ADMINISTRATION_PRIVILEGE, MANAGE_SERVER_PRIVILEGE, \
@@ -82,11 +82,11 @@ def logviewer_show(filename):
         print(f"\nGET: get_plugin_for_controller returns {get_plugin_for_controller(_plugin_name_)}")
         print(f"\nGET: plugin.name returns {get_plugin_for_controller(_plugin_name_).name}")
 
-    filename = urapstdlib.urap_secure_filename(filename)
+    filename = kioskstdlib.urap_secure_filename(filename)
     if not filename:
         flask_abort(HTTPStatus.BAD_REQUEST, 'no log file given.')
 
-    log_file = os.path.join(urapstdlib.get_file_path(conf.get_logfile()), filename)
+    log_file = os.path.join(kioskstdlib.get_file_path(conf.get_logfile()), filename)
     if not os.path.exists(log_file):
         flask_abort(HTTPStatus.NOT_FOUND, 'File not found.')
 
@@ -184,21 +184,21 @@ class V1LogViewerLogLines(Resource):
                             schema: LoginError
         '''
         cfg = get_config()
-        filename = urapstdlib.urap_secure_filename(filename)
-        if urapstdlib.get_file_extension(filename) == "":
+        filename = kioskstdlib.urap_secure_filename(filename)
+        if kioskstdlib.get_file_extension(filename) == "":
             filename += ".log"
-        elif urapstdlib.get_file_extension(filename).lower() != "log":
+        elif kioskstdlib.get_file_extension(filename).lower() != "log":
             abort(HTTPStatus.BAD_REQUEST, description=f"log file must have extension .log")
 
-        log_dir = urapstdlib.get_file_path(cfg.get_logfile())
+        log_dir = kioskstdlib.get_file_path(cfg.get_logfile())
         log_file = os.path.join(log_dir, filename)
-        check_dir = urapstdlib.get_file_path(log_file)
+        check_dir = kioskstdlib.get_file_path(log_file)
 
         # This is paranoid since urap_secure_filename should not allow for path-like parts, but ...
         if check_dir.lower() != log_dir.lower():
             abort(HTTPStatus.BAD_REQUEST, description=f"malicious attempt to tamper with the filename and path.")
 
-        if urapstdlib.file_exists(log_file):
+        if kioskstdlib.file_exists(log_file):
             log_lines = []
             try:
                 with open(log_file, "r") as text_file:
