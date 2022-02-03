@@ -54,19 +54,6 @@ def get_plugin_config() -> dict:
     """
     return kioskglobals.cfg.get_plugin_config(_plugin_name_)
 
-
-#  **************************************************************
-#  ****    redirecting index
-#  *****************************************************************/
-
-# @logviewer.route('_redirect', methods=['GET'])
-# @full_login_required
-# @requires(IsAuthorized(ENTER_ADMINISTRATION_PRIVILEGE))
-# def logviewer_index():
-#     print("------------- redirecting")
-#     return redirect(url_for("logviewer.logviewer_show"))
-#
-
 #  **************************************************************
 #  ****    /logviewer index
 #  *****************************************************************/
